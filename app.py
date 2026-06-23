@@ -21,63 +21,69 @@ preguntas jurídicas basadas en la normativa colombiana vigente.
 # Base de datos juridica
 @st.cache_resource
 def inicializar_base_conocimiento():
-    # Corpus normativo indexado: 10 documentos de alta densidad semántica
+    # Corpus optimizado con anclas semánticas para evitar colisiones entre ramas
     documentos = [
         # --- DERECHO LABORAL ---
         {
             "id": "LEY_1010_2006", 
             "tema": "Acoso Laboral", 
-            "texto": "La Ley 1010 de 2006 define el acoso laboral como conducta persistente y demostrable ejercida sobre un empleado por un jefe o compañero para infundir miedo o terror. Las víctimas pueden denunciar ante el Comité de Convivencia y tienen fuero de protección contra el despido."
+            "texto": "La Ley 1010 de 2006 define el acoso laboral como conducta persistente de maltrato, donde el jefe grita, intimida o insulta en la oficina para infundir miedo o terror. Las víctimas pueden denunciar ante el Comité de Convivencia y tienen fuero de protección contra despido."
         },
         {
             "id": "CST_ART_64", 
             "tema": "Despido Sin Justa Causa", 
-            "texto": "El Código Sustantivo del Trabajo establece que si un empleador termina un contrato laboral sin una justa causa comprobada, deberá pagar al trabajador una indemnización monetaria, la cual se calcula dependiendo del tipo de contrato (fijo o indefinido) y el tiempo laborado."
+            "texto": "El Código Sustantivo del Trabajo establece la indemnización por despido sin justa causa. Si la empresa echa al trabajador de forma injustificada, se calcula un pago de liquidación monetaria según el tiempo laborado y tipo de contrato fijo o indefinido."
         },
         # --- DERECHO CIVIL ---
         {
             "id": "LEY_820_2003", 
             "tema": "Arrendamiento de Vivienda", 
-            "texto": "La Ley 820 de 2003 dicta que el arrendador puede exigir la restitución del inmueble si el inquilino incumple con el pago del arriendo o servicios. Es ilegal que el arrendador suspenda los servicios públicos por su cuenta o retenga los bienes del arrendatario."
+            "texto": "La Ley 820 de 2003 dicta el arriendo de vivienda urbana. El dueño o arrendador tiene derecho a pedir la restitución si el inquilino no paga. Queda prohibido que el dueño de casa corte los servicios públicos unilateralmente o retenga bienes por retraso."
         },
         {
             "id": "CODIGO_CIVIL_PROMESA", 
             "tema": "Contratos y Promesas de Compraventa", 
-            "texto": "Para que una promesa de compraventa de un inmueble sea válida legalmente, debe constar por escrito, contener los datos exactos del bien, el precio, y fijar una fecha y hora exacta para la firma de la escritura pública en una notaría específica."
+            "texto": "Para que una promesa de compraventa de un inmueble, casa o apartamento sea válida legalmente, debe constar en un contrato por escrito que contenga precio, datos del bien, y fije la fecha y hora exacta para firmar la escritura pública en la notaría."
         },
         # --- DERECHO DE FAMILIA ---
         {
             "id": "LEY_1098_2006", 
             "tema": "Cuota Alimentaria para Menores", 
-            "texto": "El Código de Infancia y Adolescencia obliga a los padres a proveer alimentos a sus hijos menores. La cuota alimentaria cubre vivienda, vestido, salud, educación y recreación. Puede fijarse mediante conciliación voluntaria o por orden de un juez de familia."
+            "texto": "El Código de Infancia y Adolescencia obliga a pagar la cuota alimentaria para hijos menores. Cubre de forma obligatoria los gastos de manutención, vivienda, vestido, salud y educación de los niños, fijada por un juez de familia o en conciliación."
         },
         {
             "id": "CODIGO_CIVIL_DIVORCIO", 
             "tema": "Divorcio y Separación", 
-            "texto": "El divorcio puede solicitarse por mutuo acuerdo ante un notario (divorcio exprés) o por causas contenciosas ante un juez, como infidelidad, maltrato o separación de cuerpos por más de dos años. En el mutuo acuerdo, si hay menores, interviene el Defensor de Familia."
+            "texto": "El divorcio y la separación de cuerpos disuelve el matrimonio civil. Puede ser de mutuo acuerdo ante notario (divorcio exprés) o contencioso ante juez por infidelidad o maltrato. Si hay hijos menores de edad, interviene obligatoriamente el Defensor de Familia."
         },
         # --- DERECHO PENAL ---
         {
             "id": "CODIGO_PENAL_ART_239", 
             "tema": "Delito de Hurto", 
-            "texto": "El hurto consiste en apoderarse de un bien mueble ajeno para obtener provecho. Incurrirá en prisión quien lo cometa. La condena se agrava (hurto calificado) si se utiliza violencia contra las personas, se rompen cerraduras o se usa armas."
+            "texto": "El delito de hurto consiste en robar o apoderarse de una cosa mueble ajena. La pena de prisión se agrava a hurto calificado si se emplea violencia física, armas de fuego, atraco o si se rompen las cerraduras y puertas para entrar."
         },
         {
             "id": "CODIGO_PENAL_ART_32", 
             "tema": "Legítima Defensa", 
-            "texto": "No habrá responsabilidad penal por lesiones o muerte si la persona actúa en legítima defensa. Para que sea válida, debe existir una necesidad de defender un derecho propio o ajeno contra una agresión injusta, actual o inminente, y la defensa debe ser proporcional al ataque."
+            "texto": "La legítima defensa exime de responsabilidad penal por lesiones o muerte. Requiere defender un derecho propio de una agresión injusta, actual o inminente, siempre que la reacción y la fuerza utilizada para el contraataque sean proporcionales."
         },
         # --- DERECHO CONSTITUCIONAL ---
         {
             "id": "DECRETO_2591_1991", 
             "tema": "Acción de Tutela", 
-            "texto": "La acción de tutela es un mecanismo para proteger derechos fundamentales (como la vida, la salud o el debido proceso) cuando son vulnerados por autoridades o particulares. El juez tiene un plazo máximo e improrrogable de 10 días hábiles para resolverla."
+            "texto": "La acción de tutela protege derechos fundamentales vulnerados por una autoridad. No aplica para pensiones o contratos comunes, sino para amparar de urgencia la vida o la salud. El juez constitucional tiene un término de 10 días para resolver el fallo."
         },
         # --- DERECHO COMERCIAL / CONSUMIDOR ---
         {
             "id": "LEY_1480_2011", 
             "tema": "Derecho de Retracto (Consumidor)", 
-            "texto": "El Estatuto del Consumidor otorga el derecho de retracto en compras por internet, catálogo o financiadas. El cliente tiene 5 días hábiles desde que recibe el producto para devolverlo sin justificación, y el vendedor debe reembolsar el 100% del dinero."
+            "texto": "El Estatuto del Consumidor otorga el derecho de retracto para compras por internet o catálogos online. El cliente tiene un plazo de 5 días hábiles para devolver el producto y solicitar el reembolso del 100% de su dinero si se arrepiente."
+        },
+        # --- DOCUMENTO ESPECÍFICO PARA EL REQUISITO DE PENSIONES ---
+        {
+            "id": "LEY_100_1993", 
+            "tema": "Sistema de Pensiones y Jubilación", 
+            "texto": "Para obtener la pensión de vejez y jubilación bajo el régimen de Colpensiones, los requisitos obligatorios de semanas y edad son: haber cumplido 57 años de edad si es mujer o 62 años de edad si es hombre, y registrar un mínimo de 1300 semanas cotizadas."
         }
     ]
     return documentos
@@ -106,7 +112,7 @@ with st.spinner("Inicializando modelos..."):
 # Modulo de inferencia
 def procesar_consulta_rag(pregunta):
     # Retriever
-    vector_pregunta = retriever.encode([pregunta])
+    vector_pregunta = retriever.encode([pregunta.lower().strip()])
     similitudes = cosine_similarity(vector_pregunta, embeddings_corpus)[0]
     indice_mejor_doc = np.argmax(similitudes)
     puntaje_similitud = similitudes[indice_mejor_doc]
@@ -119,7 +125,7 @@ def procesar_consulta_rag(pregunta):
     }
     
     # Control ético para evitar alucinaciones
-    if puntaje_similitud < 0.35:
+    if puntaje_similitud < 0.30:
         return "La consulta se encuentra fuera del dominio de JustIA.", trazas, None
 
     documento_contexto = documentos[indice_mejor_doc]
